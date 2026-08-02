@@ -4,7 +4,7 @@ import torch.optim as optim
 from torch.utils.data import DataLoader
 from torchvision import datasets, transforms
 
-# 1. set
+# 1. Set
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
 # 2. Data Augmentations
@@ -20,7 +20,7 @@ test_transform = transforms.Compose([
     transforms.Normalize((0.1307,), (0.3081,))
 ])
 
-# 3 Shallow MLP, CNN, Transformer Encoder
+# 3 Shallow MLP, CNN, Transformer
 class ShallowMLP(nn.Module):
     def __init__(self):
         super().__init__()
@@ -68,7 +68,7 @@ class VisionTransformerEncoder(nn.Module):
         x = self.transformer(x)
         return self.mlp_head(x[:, 0])
 
-
+# 4. Training and testing
 def train_epoch(model, loader, criterion, optimizer):
     model.train()
     running_loss = 0.0
@@ -93,7 +93,7 @@ def test_evaluate(model, loader):
             correct += (predicted == labels).sum().item()
     return 100.0 * correct / total
 
-
+# 5. Main
 if __name__ == "__main__":
     train_dataset = datasets.MNIST('./data', train=True, download=True, transform=train_transform)
     test_dataset = datasets.MNIST('./data', train=False, download=True, transform=test_transform)
